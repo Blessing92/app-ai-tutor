@@ -1,6 +1,6 @@
 <script lang="ts" module>
-	import { selectedTitle } from "$lib/stores"
-	// sample data
+	import { selectedTitle, activeMenuItem } from "$lib/stores"
+
 	const data = {
 		versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
 		navMain: [
@@ -10,26 +10,11 @@
 				items: [
 					{
 						title: "New Session",
-						url: "#",
-						isActive: true
+						url: "/",
 					},
-					{
-						title: "Project Structure",
-						url: "#",
-					},
-				],
-			},
-			{
-				title: "Practice Language",
-				url: "#",
-				items: [
 					{
 						title: "Quizzes",
-						url: "#",
-					},
-					{
-						title: "My courses",
-						url: "#",
+						url: "/quizzes",
 					},
 				],
 			},
@@ -58,7 +43,10 @@
 					<Sidebar.Menu>
 						{#each group.items as item (item.title)}
 							<Sidebar.MenuItem>
-								<Sidebar.MenuButton isActive={item.isActive} onclick={() => selectedTitle.set(item.title)}>
+								<Sidebar.MenuButton isActive={$activeMenuItem === item.title} onclick={() => {
+								selectedTitle.set(item.title)
+								activeMenuItem.set(item.title)
+								}}>
 									{#snippet child({ props })}
 										<a href={item.url} {...props}>{item.title}</a>
 									{/snippet}
