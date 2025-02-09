@@ -1,11 +1,11 @@
 import OpenAI from "openai"
 import { json, type RequestHandler } from "@sveltejs/kit"
-import { PUBLIC_GEMINI_API_KEY } from "$env/static/public"
+import { GEMINI_API_KEY } from "$env/static/private"
 import { PUBLIC_GEMINI_BASE_URL } from "$env/static/public"
 import { SYSTEM_INSTRUCTIONS } from "$lib/utils"
 
 const openai = new OpenAI({
-  apiKey: PUBLIC_GEMINI_API_KEY,
+  apiKey: GEMINI_API_KEY,
   baseURL: PUBLIC_GEMINI_BASE_URL,
 })
 
