@@ -12,6 +12,6 @@ jobs:
         with:
           node-version: latest
       - run: npm ci
-        working-directory: app
+        working-directory: .
       - run: npx tsc --noEmit
-        working-directory: app
+        working-directory: .
