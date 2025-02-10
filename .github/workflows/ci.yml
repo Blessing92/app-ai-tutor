@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cypress install
+        uses: cypress-io/github-action@v2
+        with:
+          runTests: false
+
+      - name: Run lints
+        run: npm run lint
+
+      - name: Build site
+        run: npm run build
+
+      - name: Upload build and .svelte-kit folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          if-no-files-found: error
+          path: build
+
+  test:
+    needs: build
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node14.17.0-chrome91-ff89
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [ chrome, firefox ]
+        containers: [ 1, 2 ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: python3 -m http.server --directory build 3000
+          wait-on: http://localhost:3000/
+          wait-on-timeout: 10
+          browser: ${{ matrix.browser }}
+          record: true
+          parallel: true
+          group: 'UI - ${{ matrix.browser }}'
