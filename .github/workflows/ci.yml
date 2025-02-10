@@ -48,7 +48,7 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     container:
-      image: cypress/browsers:node14.17.0-chrome91-ff89
+      image: cypress/browsers:node-22.13.1-chrome-133.0.6943.53-1-ff-135.0-edge-132.0.2957.140-1
       options: --user 1001
     strategy:
       fail-fast: false
