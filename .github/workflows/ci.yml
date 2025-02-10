@@ -66,6 +66,12 @@ jobs:
           name: build
           path: build
 
+      - name: Install Cypress
+        run: npx cypress install
+
+      - name: Clear Cypress cache
+        run: npx cypress cache clear
+
       - name: Set up environment file
         run: |
           echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> .env
