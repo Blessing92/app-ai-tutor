@@ -74,12 +74,32 @@
   }
 }
 
-.markdown ul, .markdown ol {
-  list-style-position: inside;
+.markdown ol {
+  padding-left: 20px;
+  list-style-type: decimal;
+}
+
+.markdown ul {
   padding-left: 20px;
   list-style-type: disc;
 }
 
-.markdown ul li, .markdown ol li {
+.markdown ol li {
   margin-bottom: 8px;
 }
+
+.markdown ul li {
+  margin-bottom: 8px;
+}
+
+
+/*.markdown ul, .markdown ol {*/
+/*  list-style-position: inside;*/
+/*  padding-left: 20px;*/
+/*  list-style-type: disc;*/
+/*}*/
+
+/*.markdown ul li, .markdown ol li {*/
+/*  margin-bottom: 8px;*/
+/*}*/
+

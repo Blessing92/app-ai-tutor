@@ -4,18 +4,26 @@
   import { marked } from "marked";
   import { Textarea } from "$components/ui/textarea"
   import { Button } from "$components/ui/button"
-  import { Skeleton } from "$components/ui/skeleton"
+  import { messages} from "$lib/stores"
+  import { removeHTMLTags } from "$lib/utils"
 
-  const messages = writable<{ sender: "me" | "ai"; text: string }[]>([]);
   const userInput = writable("");
   const isSending = writable(false);
   const isAIGenerating = writable(false);
-  let chatContainer: HTMLDivElement | null = null;
+  let chatContainer = $state<HTMLDivElement | null>(null);
 
   function scrollToBottom() {
     if (chatContainer) {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
+  }
+
+  function startNewSession() {
+    messages.set([]);
+    userInput.set("");
+
+    isSending.set(false);
+    isAIGenerating.set(false);
   }
 
   async function sendMessage() {
@@ -24,11 +32,9 @@
 
     isSending.set(true);
     messages.update((msgs) => [...msgs, { sender: "me", text }]);
-
     userInput.set("");
 
     await generateAIResponse(text);
-    setTimeout(scrollToBottom, 100);
     isSending.set(false);
   }
 
@@ -53,11 +59,6 @@
     }
   }
 
-  function removeHTMLTags(str: string): string {
-    const doc = new DOMParser().parseFromString(str, 'text/html');
-    return doc.body.textContent || "";
-  }
-
   async function displayAIResponse(aiResponse: string) {
     if (!aiResponse) {
       messages.update((msgs) => [
@@ -68,9 +69,8 @@
     }
 
     const formattedResponse = await marked.parse(aiResponse);
-    messages.update((msgs) => [...msgs, { sender: "ai", text: formattedResponse }]);
 
-    setTimeout(scrollToBottom, 100);
+    messages.update((msgs) => [...msgs, { sender: "ai", text: formattedResponse }]);
     isAIGenerating.set(false);
   }
 
@@ -97,9 +97,14 @@
     }
   }
 
-  onMount(scrollToBottom);
-</script>
+  onMount(() => {
+    scrollToBottom();
+  });
 
+  $effect(() => {
+    setTimeout(scrollToBottom, 100);
+  });
+</script>
 
 <div
   class="flex-1 overflow-y-auto p-4 rounded-lg"
@@ -124,22 +129,21 @@
   {/each}
 </div>
 
-<div class="sticky bottom-0 bg-white p-4 flex gap-2">
-  {#if $isAIGenerating}
-    <div class="absolute top-[-30px] left-0 right-0 flex justify-center">
-      <Skeleton class="h-[20px] w-[100%]" />
-    </div>
-  {/if}
-
+<div class="sticky bottom-0 bg-white p-4 flex gap-2 items-end">
   <Textarea
     bind:value={$userInput}
     class="flex-1 p-2 border rounded-lg"
-    placeholder="Type a message..."
+    placeholder="Type to begin your class..."
     onkeydown={handleKeydown}
   />
-  <Button variant="default" onclick={sendMessage} disabled={$isSending || $isAIGenerating}>
-    Send
-  </Button>
+  <div class="flex gap-2">
+    <Button variant="default" onclick={sendMessage} disabled={$isSending || $isAIGenerating}>
+      Send
+    </Button>
+    <Button variant="outline" onclick={startNewSession} disabled={$isSending || $isAIGenerating}>
+      Start new session
+    </Button>
+  </div>
 </div>
 
 <style>

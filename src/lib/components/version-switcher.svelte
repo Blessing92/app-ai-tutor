@@ -27,7 +27,7 @@
 						</div>
 						<div class="flex flex-col gap-0.5 leading-none">
 							<span class="font-semibold">Ai-Tutor</span>
-							<span class="">v{selectedVersion}</span>
+							<span class="">{selectedVersion}</span>
 						</div>
 						<ChevronsUpDown class="ml-auto" />
 					</Sidebar.MenuButton>
@@ -36,7 +36,7 @@
 			<DropdownMenu.Content class="w-[--bits-dropdown-menu-anchor-width]" align="start">
 				{#each versions as version (version)}
 					<DropdownMenu.Item onSelect={() => (selectedVersion = version)}>
-						v{version}
+						{version}
 						{#if version === selectedVersion}
 							<Check class="ml-auto" />
 						{/if}

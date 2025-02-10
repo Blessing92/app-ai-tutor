@@ -5,10 +5,32 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const SYSTEM_INSTRUCTIONS =
-  "You are an expert French language tutor. Teach the student in an interactive way. " +
-  "Respond with less content to help the student learn better, each response should contain " +
-  "a numbered list, and under each header, provide a bullet-point list of key items or explanations. " +
-  "The headers should follow the format: 1. Something, 2. Something else, etc. " +
-  "Make the content educational, engaging, and fun to encourage learning. The context of " +
-  "conversation starts with // beginning of history and ends with // end of history."
+export function removeSpaces(str: string): string {
+  return str.replace(/\s+/g, " ").trim()
+}
+
+export function removeHTMLTags(str: string): string {
+  const doc = new DOMParser().parseFromString(str, "text/html")
+  return doc.body.textContent || ""
+}
+
+export function formatAIResponse(text: string): string {
+  // Convert **bold** to <strong>bold</strong>
+  text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+
+  // Convert *italic* to <em>italic</em>
+  text = text.replace(/\*(.*?)\*/g, "<em>$1</em>")
+
+  // Convert numbered lists (1. Item) to <ol> lists
+  text = text.replace(/(\d+)\.\s(.+)/g, "<li>$2</li>")
+  text = text.replace(/(<li>.+<\/li>)+/g, "<ol>$&</ol>")
+
+  // Convert bullet lists (* Item) to <ul> lists
+  text = text.replace(/\*\s(.+)/g, "<li>$1</li>")
+  text = text.replace(/(<li>.+<\/li>)+/g, "<ul>$&</ul>")
+
+  // Preserve new lines as <br>
+  text = text.replace(/\n/g, "<br>")
+
+  return text
+}

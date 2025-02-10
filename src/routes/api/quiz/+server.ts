@@ -3,29 +3,39 @@ import { json, type RequestHandler } from "@sveltejs/kit"
 import { GEMINI_API_KEY } from "$env/static/private"
 import { PUBLIC_GEMINI_BASE_URL } from "$env/static/public"
 import { removeSpaces } from "$lib/utils"
-import { SYSTEM_INSTRUCTIONS } from "$lib/constants"
-import type { ChatRequest, ChatResponse } from "$lib/types"
+import { QUIZ_INSTRUCTIONS } from "$lib/constants"
+import type { QuizRequest, ChatResponse } from "$lib/types"
 
 const openai = new OpenAI({
   apiKey: GEMINI_API_KEY,
   baseURL: PUBLIC_GEMINI_BASE_URL,
 })
 
+const createQuizPrompt = (message: string, lessons: string): string => {
+  const cleanedMessage = removeSpaces(message)
+  const cleanedLessons = removeSpaces(lessons)
+
+  const formattedLessons = cleanedLessons
+    ? `// Lessons Context\n${cleanedLessons}\n// End of Lessons Context\n\n`
+    : ""
+
+  const contextHistory = `// beginning of quiz\n${cleanedMessage}\n// end of quiz`
+
+  return `${formattedLessons}${QUIZ_INSTRUCTIONS}\n${contextHistory}`
+}
+
 export const POST: RequestHandler = async ({ request }) => {
   try {
-    const { message }: ChatRequest = await request.json()
+    const { quizMessage, lessonMessages }: QuizRequest = await request.json()
 
-    const cleanedMessage = removeSpaces(message)
-    const contextHistory = `// beginning of history\n${cleanedMessage}\n// end of history`
-
-    const prompt = `${SYSTEM_INSTRUCTIONS}\n${contextHistory}`
+    const prompt = createQuizPrompt(quizMessage, lessonMessages)
 
     const response = await openai.chat.completions.create({
       model: "gemini-2.0-flash",
       messages: [
         {
           role: "system",
-          content: SYSTEM_INSTRUCTIONS,
+          content: QUIZ_INSTRUCTIONS,
         },
         { role: "user", content: prompt },
       ],

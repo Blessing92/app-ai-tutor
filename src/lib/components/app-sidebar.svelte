@@ -2,7 +2,7 @@
 	import { selectedTitle, activeMenuItem } from "$lib/stores"
 
 	const data = {
-		versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
+		versions: ["French"],
 		navMain: [
 			{
 				title: "My Learnings",
