@@ -39,7 +39,9 @@ jobs:
         with:
           name: build
           if-no-files-found: error
-          path: build
+          path: |
+            .vercel/output
+            .svelte-kit
 
   test:
     needs: build
