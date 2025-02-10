@@ -84,5 +84,3 @@ jobs:
           wait-on: http://localhost:3000/
           wait-on-timeout: 10
           browser: ${{ matrix.browser }}
-          parallel: true
-          group: "UI - ${{ matrix.browser }}"
