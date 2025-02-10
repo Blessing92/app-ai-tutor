@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Cypress install
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v6
         with:
           runTests: false
 
@@ -27,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: Upload build and .svelte-kit folder
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3 # ✅ Updated to v3
         with:
           name: build
           if-no-files-found: error
@@ -46,15 +46,15 @@ jobs:
         browser: [ chrome, firefox ]
         containers: [ 1, 2 ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3 # ✅ Updated to v3
         with:
           name: build
           path: build
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v6
         with:
           start: python3 -m http.server --directory build 3000
           wait-on: http://localhost:3000/
