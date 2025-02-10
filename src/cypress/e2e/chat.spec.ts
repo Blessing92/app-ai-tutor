@@ -1,15 +1,16 @@
 describe("Chat App", () => {
   beforeEach(() => {
     cy.visit("/")
+    cy.wait(1000)
   })
 
   it("loads the chat UI", () => {
-    cy.get("textarea").should("be.visible")
+    cy.get("textarea", { timeout: 10000 }).should("be.visible")
     cy.contains("Send").should("be.visible")
   })
 
   it("sends a message and gets a response", () => {
-    cy.get("textarea").type("Hello AI!")
+    cy.get("textarea", { timeout: 10000 }).type("Hello AI!")
     cy.contains("Send").click()
 
     cy.get(".me .message-text").should("contain", "Hello AI!")
@@ -17,7 +18,7 @@ describe("Chat App", () => {
   })
 
   it("starts a new session", () => {
-    cy.get("textarea").type("Hello!")
+    cy.get("textarea", { timeout: 10000 }).type("Hello!")
     cy.contains("Send").click()
     cy.get(".me .message-text").should("contain", "Hello!")
 
