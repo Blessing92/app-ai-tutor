@@ -2,7 +2,7 @@
 </script>
 
 <section>
-	<div>Welcome to chat component</div>
+  <div>Welcome to chat component</div>
 </section>
 
 <style>

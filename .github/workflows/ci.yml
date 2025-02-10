@@ -43,8 +43,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [ chrome, firefox ]
-        containers: [ 1, 2 ]
+        browser: [chrome, firefox]
+        containers: [1, 2]
     steps:
       - uses: actions/checkout@v4
 
@@ -62,4 +62,4 @@ jobs:
           browser: ${{ matrix.browser }}
           record: true
           parallel: true
-          group: 'UI - ${{ matrix.browser }}'
+          group: "UI - ${{ matrix.browser }}"

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import '../app.css';
-  import AppSidebar from "$lib/components/app-sidebar.svelte";
-  import * as Sidebar from "$lib/components/ui/sidebar/index";
-  import * as Breadcrumb from "$lib/components/ui/breadcrumb/index";
-  import { Separator } from "$lib/components/ui/separator/index";
-  import { selectedTitle } from "$lib/stores";
+  import "../app.css"
+  import AppSidebar from "$lib/components/app-sidebar.svelte"
+  import * as Sidebar from "$lib/components/ui/sidebar/index"
+  import * as Breadcrumb from "$lib/components/ui/breadcrumb/index"
+  import { Separator } from "$lib/components/ui/separator/index"
+  import { selectedTitle } from "$lib/stores"
 </script>
 
 <Sidebar.Provider>
@@ -29,7 +29,8 @@
 
     <!-- Main Content -->
     <div class="flex flex-1 flex-col gap-4 p-4">
-      <slot /> <!-- This will render the content of child pages -->
+      <slot />
+      <!-- This will render the content of child pages -->
     </div>
   </Sidebar.Inset>
 </Sidebar.Provider>

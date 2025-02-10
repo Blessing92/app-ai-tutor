@@ -1,9 +1,9 @@
-
 # AI-Tutor for French
 
 AI-Tutor for French is an interactive web application designed to help users learn French using an AI-powered tutor. The app provides a range of lessons and exercises, helping users improve their French language skills with ease and fun.
 
 ### Built With:
+
 - **Svelte**
 
 ---
@@ -19,7 +19,9 @@ AI-Tutor for French is an interactive web application designed to help users lea
 ## Installation
 
 ### Prerequisites
+
 Before getting started, ensure you have the following installed:
+
 - **Node.js**: Version 14 or higher.
 - **npm**: Node package manager (usually comes with Node.js).
 
@@ -63,15 +65,18 @@ This will launch the app on `http://localhost:5173/` (or a different port specif
 ## Usage
 
 ### 1. Interactive French lessons
+
 - Start the lesson by engaging with the AI tutor.
 - Practice different French phrases, greetings, and more.
 - The AI will adapt to your responses, providing personalized feedback.
 
 ### 2. Ask questions
+
 - You can ask the AI anything about the French language, and it will respond to help you learn.
 - For example: "How do I say 'good morning' in French?"
 
 ### 3. Real-time chat
+
 - The chat interface allows you to have a conversation with the AI to practice your French skills.
 
 ---
@@ -87,4 +92,3 @@ We welcome contributions! Here’s how you can help:
 5. Create a new Pull Request.
 
 ---
-
